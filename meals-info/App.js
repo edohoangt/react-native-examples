@@ -8,6 +8,7 @@ import MealDetailScreen from "./screens/MealDetailScreen";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import { Ionicons } from "@expo/vector-icons";
+import FavoritesContextProvider from "./store/context/favorites-context";
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -58,48 +59,50 @@ export default function App() {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Meal Categories"
-          screenOptions={{
-            headerStyle: {
-              backgroundColor: "#351401",
-            },
-            headerTintColor: "white",
-            contentStyle: {
-              backgroundColor: "#3f2f25",
-            },
-          }}
-        >
-          <Stack.Screen
-            name="Meal Categories"
-            component={DrawerNavigator}
-            options={{
-              title: "All Categories",
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="Meals Overview"
-            component={MealsOverviewScreen}
-            // options={({ route, navigation }) => {
-            //   const catId = route.params.categoryId;
-
-            //   return { title: catId };
-            // }}
-          />
-          <Stack.Screen
-            name="Meal Detail"
-            component={MealDetailScreen}
-            options={{
-              headerRight: () => {
-                return <Text>in header</Text>;
+      <FavoritesContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Meal Categories"
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: "#351401",
               },
-              title: "About the Meal",
+              headerTintColor: "white",
+              contentStyle: {
+                backgroundColor: "#3f2f25",
+              },
             }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          >
+            <Stack.Screen
+              name="Meal Categories"
+              component={DrawerNavigator}
+              options={{
+                title: "All Categories",
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="Meals Overview"
+              component={MealsOverviewScreen}
+              // options={({ route, navigation }) => {
+              //   const catId = route.params.categoryId;
+
+              //   return { title: catId };
+              // }}
+            />
+            <Stack.Screen
+              name="Meal Detail"
+              component={MealDetailScreen}
+              options={{
+                headerRight: () => {
+                  return <Text>in header</Text>;
+                },
+                title: "About the Meal",
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FavoritesContextProvider>
     </>
   );
 }
